@@ -1,0 +1,22 @@
+name: DeployModel-AML
+
+on:
+  # Triggers the workflow on push request for the master branch
+  push:
+    branches: [ main ]
+
+jobs:
+  deployML:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: deploy model to AKS
+        working-directory: ${{env.ml-path}}
+        run: |
+          az extension add -n azure-cli-ml
+          az ml model deploy -n aks4 -m "tf-dnn-mnist:1" --ic inferenceconfig.json --dc deploymentconfig.yml --ct fcvkub1attached -w fcvml1  -g "analytics-ea-rg"
