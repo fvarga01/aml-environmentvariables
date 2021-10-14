@@ -1,2 +1,2 @@
 # aml-environmentvariables
-Demonstrates how to pass environment variable to AML compute
+Demonstrates how to an pass environment variable to AML compute in a github workflow.
